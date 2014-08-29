@@ -12,7 +12,7 @@ Treatment_C <- c(2.67,2.62,1.84,2.33,1.27,2.39,2.39)
 
 #Construction of the data frame for the data of patients
 Patient <- data.frame(Patients,Treatment_A,Treatment_B,Treatment_C)
-
+Patient
 
 #The function S calculates T statsitsics for a given data frame
 
@@ -22,29 +22,27 @@ T <- function(X){
 }
 
 #The function T calculates a T statistics for given data frame X
-T_1 <- function (X){
+S <- function (X){
   M <- (mean(X$Treatment_A) + mean(X$Treatment_B) + mean(X$Treatment_C))/3
-  T_1<- (mean(X$Treatment_A) - M)^2 + (mean(X$Treatment_B) - M)^2 + (mean(X$Treatment_C)- M)^2
-  return(T_1)
+  S<- (mean(X$Treatment_A) - M)^2 + (mean(X$Treatment_B) - M)^2 + (mean(X$Treatment_C)- M)^2
+  return(S)
 }
 
 #We calculate T and S for our data frame Patient
 t<-T(Patient)
 t
-s <- T(Patient)
+s <- S(Patient)
 s
 
-#
+#number of permutations
 m <- factorial(3)^7
-n <- factorial (21)
-m/n
 
-#because the value of m/n is too high we use Monte-Carlo simulation
+#because the value of permutations is too high we use Monte-Carlo simulation
 
 ##Monte Carlo symulation for caluculating p-value
 #The input for the function:
 #X - in data matrix, B - the number of iterations of Monte Carlo method,
-#fun - the T statistics (in our case this are T() and, S())
+#fun - the T statistics (in our case this are T() and S())
 Monte_Carlo <- function(X, B, fun){
   
   t_value <- fun(X)
@@ -76,10 +74,11 @@ Monte_Carlo <- function(X, B, fun){
   abline(v = t_value, col = 2)  
 }
 
-#Monte Carlo for test stetistics T
-Monte_Carlo(Patient,9999,T)
 
 #Monte Carlo for test stetistics T
-Monte_Carlo(Patient,9999,T_1)
+Monte_Carlo(Patient,999,T)
+
+#Monte Carlo for test stetistics S
+Monte_Carlo(Patient,999,S)
 
 
